@@ -1,0 +1,87 @@
+# ./center-of-mass.py -plot -rotate "5,5,6.5,5.5" "2,2,3,4" "9,3,11,6" "6,11.5,7.4,12" "3.5,15,11,3" "32,12,5,42" "30,10,5.5,14.3" "4,4,4,44" "27.32,5.3,12,8"
+
+set title "Center of mass"
+set lmargin 15
+set key on at screen 0.03, screen 1 left Left reverse
+set view 60, 110, 1, 1
+
+set xyplane at 0
+# Axis ranges
+set xrange[0:33]
+set yrange[0:16]
+set zrange[0:13]
+set border 4095 lt 0
+
+set xtics axis autofreq
+set ytics axis autofreq
+set ztics axis autofreq
+
+set mapping cartesian
+set grid xtics ytics noztics
+
+# Axis
+set arrow from 0,0,0 to 34,0,0 lt 2 lc rgb "#333333" head empty front
+set arrow from 0,0,0 to 0,17,0 lt 2 lc rgb "#333333" head empty front
+set arrow from 0,0,0 to 0,0,14 lt 2 lc rgb "#333333" head empty front
+
+# Axis labels
+set xlabel "X" offset first 19.80
+set ylabel "Y" offset first 0, first 9.60
+set zlabel "Z" offset first 0, first 0, first 7.80
+
+# Help lines style for points
+set style line 1 lt 1 lc rgb '#90FF90' lw 1
+# Help line style for point of center of mass
+set style line 2 lt 4 lc rgb '#FFB600' lw 1
+
+# Points with labels
+set label "1" at first 5.00, first 5.00, first 6.50 left front offset 1
+set label "2" at first 2.00, first 2.00, first 3.00 left front offset 1
+set label "3" at first 9.00, first 3.00, first 11.00 left front offset 1
+set label "4" at first 6.00, first 11.50, first 7.40 left front offset 1
+set label "5" at first 3.50, first 15.00, first 11.00 left front offset 1
+set label "6" at first 32.00, first 12.00, first 5.00 left front offset 1
+set label "7" at first 30.00, first 10.00, first 5.50 left front offset 1
+set label "8" at first 4.00, first 4.00, first 4.00 left front offset 1
+set label "9" at first 27.32, first 5.30, first 12.00 left front offset 1
+set label "Cm" at first 16.86, first 7.94, first 5.74 left front offset 1
+
+splot \
+'example1.dat' every ::0::5 notitle with lines ls 1, \
+'example1.dat' every ::6::11 notitle with lines ls 1, \
+'example1.dat' every ::12::17 notitle with lines ls 1, \
+'example1.dat' every ::18::23 notitle with lines ls 1, \
+'example1.dat' every ::24::29 notitle with lines ls 1, \
+'example1.dat' every ::30::35 notitle with lines ls 1, \
+'example1.dat' every ::36::41 notitle with lines ls 1, \
+'example1.dat' every ::42::47 notitle with lines ls 1, \
+'example1.dat' every ::48::53 notitle with lines ls 1, \
+'example1.dat' every ::54::59 title "" with lines ls 2, \
+'example1.dat' every ::60::60 title "1 - 5.50 (5.00; 5.00; 6.50)    " with points lc rgb '#6464FF' pt 7 ps 2, \
+'example1.dat' every ::61::61 title "2 - 4.00 (2.00; 2.00; 3.00)    " with points lc rgb '#6B6BFF' pt 7 ps 2, \
+'example1.dat' every ::62::62 title "3 - 6.00 (9.00; 3.00; 11.00)   " with points lc rgb '#6161FF' pt 7 ps 2, \
+'example1.dat' every ::63::63 title "4 - 12.00 (6.00; 11.50; 7.40)  " with points lc rgb '#4343FF' pt 7 ps 2, \
+'example1.dat' every ::64::64 title "5 - 3.00 (3.50; 15.00; 11.00)  " with points lc rgb '#7070FF' pt 7 ps 2, \
+'example1.dat' every ::65::65 title "6 - 42.00 (32.00; 12.00; 5.00) " with points lc rgb '#0000AB' pt 7 ps 2, \
+'example1.dat' every ::66::66 title "7 - 14.30 (30.00; 10.00; 5.50) " with points lc rgb '#3737FF' pt 7 ps 2, \
+'example1.dat' every ::67::67 title "8 - 44.00 (4.00; 4.00; 4.00)   " with points lc rgb '#0000A0' pt 7 ps 2, \
+'example1.dat' every ::68::68 title "9 - 8.00 (27.32; 5.30; 12.00)  " with points lc rgb '#5757FF' pt 7 ps 2, \
+'example1.dat' every ::69::69 title "Cm - 138.80 (16.86; 7.94; 5.74)" with points lc rgb 'black' pt 6 ps 2
+
+# Defines for gnuplot.rot script
+limit_iterations = 360
+xrot = 60
+xrot_delta = 0
+zrot = 110
+zrot_delta = 1
+xview(xrot) = xrot
+zview(zrot) = zrot
+set view xview(xrot), zview(zrot), 1, 1
+set size square
+
+iteration_count = 0
+xrot = (xrot + xrot_delta)%360
+zrot = (zrot + zrot_delta)%360
+load "rotate.rot"
+
+pause -1 "Press any key to quit"

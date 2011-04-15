@@ -1,0 +1,34 @@
+  This program is intended for educational purposes. It calculates coordinates
+and mass of "center of mass". Points can be in 2 or 3 dimensions. Optionally it
+generate a script (only 3D) for the gnuplot program to visualize result (the
+darkest point have largest mass). Mass and coordinates can be specified as float
+values with precision up to 6 digits.
+  Coordinates cannot have negative values. In such cases you can transform them
+to positive values by using coordinates of the lowest point as starting point.
+For example coordinates of points (-1;2;3) and (4;5;6) can be transformed to
+(0;2;3) and (5;5;6) by adding 1 to each x-coordinate of each point respectively.
+The same as for y- and z- coordinates.
+  See gnuplot examples in the "gnuplot-examples" directory (e.g. run "gnuplot
+example1.dem").
+
+Usage:
+  ./center-of-mass.py [-plot [-rotate] [-base <name>]] <p1> <p2> [<p3>..<pN>]
+	<p1>..<pN>: points in format <x,y,z,m> or <x,y,m> where is
+		x,y,z - coordinates, m - mass
+	-plot: generate script and data files for gnuplot (only 3D)
+	-rotate: rotate result by 360 degrees dymanimcally
+	-base <name>: save files for the gnuplot program with names <name>.dem and
+		<name>.dat (default "custom")
+
+Examples:
+  ./center-of-mass.py 2,1,6 3,7,5 4,3,2 - calculate mass and
+		coordinates (x,y) of center of mass
+	1st point is (2;1) with mass 6
+	2nd point is (3;7) with mass 5
+	3rd point is (4;3) with mass 2
+
+  ./center-of-mass.py 4.0,5.0,2,2 1,6,5,3 3,2,3,4 - calculate mass and
+		coordinates (x,y,z) of center of mass
+	1st point (4,0;5,0;2) with mass 2
+	2nd point is (1;6;5) with mass 3
+	3rd point is (3;2;3) with mass 4
